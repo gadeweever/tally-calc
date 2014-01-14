@@ -41,8 +41,7 @@ namespace tallycalc
             //the application bar button has been selected but we are not currently in an overlay
             if (!isPicking)
             {
-                if(ovr.numeralNameBox.Text.CompareTo("New Numeral") != 0)
-                    ovr.numeralNameBox.Text = "";
+                ovr.numeralNameBox.Text = "New Numeral";
                 isPicking = !isPicking;
                 //set visible properties of the overlay
                 this.LayoutRoot.Opacity = 1;
@@ -95,8 +94,6 @@ namespace tallycalc
             }
 
         }
-        #endregion
-
         public void Return()
         {
             this.popup.IsOpen = false;
@@ -105,7 +102,9 @@ namespace tallycalc
             isPicking = !isPicking;
 
         }
+        #endregion
 
+        #region Isolated Storage
         private int LoadStoredData()
         {
             using (var filesystem = IsolatedStorageFile.GetUserStoreForApplication())
@@ -135,7 +134,9 @@ namespace tallycalc
             return 0;
 
         }
+        #endregion
 
+        #region Selection Events
         private void NavigateToTallyGroup(object sender, SelectionChangedEventArgs e)
         {
             if (tallyList.SelectedIndex < 0)
@@ -159,6 +160,7 @@ namespace tallycalc
             string tallyIndexName = (sender as TextBlock).Text;
             tallyIndex = Globals.GetNumeralIndexByName(tallyIndexName);
         }
+        #endregion
 
     }
 }

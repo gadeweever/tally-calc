@@ -27,6 +27,7 @@ namespace tallycalc
             tallyItemList.Width = Application.Current.Host.Content.ActualWidth;
             listDivider.Width = Application.Current.Host.Content.ActualWidth * .9;
             CheckList();
+            UpdateHighest();
             
         }
 
@@ -37,10 +38,8 @@ namespace tallycalc
             //the application bar button has been selected but we are not currently in an overlay
             if (!isPicking)
             {
-                if (ovr.numeralNameBox.Text.CompareTo("New Numeral") != 0)
-                    ovr.numeralNameBox.Text = "";
-                else
-                    ovr.numeralNameBox.Text = "New Item";
+                ovr.numeralNameBox.Text = "New Item";
+
                 isPicking = true;
                 //set visible properties of the overlay
                 this.LayoutRoot.Opacity = 1;
@@ -101,6 +100,7 @@ namespace tallycalc
         }
         #endregion
 
+        #region Navigation Handlers
         private void NavigateTallyItem(object sender, SelectionChangedEventArgs e)
         {
             //if (tallyItemList.SelectedIndex < 0)
@@ -108,6 +108,7 @@ namespace tallycalc
             //Globals.CurrentTallyItem = tallyItemList.SelectedItem as TallyItem;
             //NavigationService.Navigate(new Uri("/TallyItemPage.xaml",UriKind.Relative));
         }
+        #endregion
 
         #region Voting Handlers
         private void UpvoteTallyItem(object sender, RoutedEventArgs e)
@@ -141,6 +142,7 @@ namespace tallycalc
             ResetList();
 
             Globals.SaveStorageData();
+            
 
         }
 
@@ -152,6 +154,9 @@ namespace tallycalc
 
         private void UpdateHighest()
         {
+            if (Globals.CurrentTally.tallyItems.Count < 1)
+                return;
+
             TallyItem highest = Globals.CurrentTally.GetHighestCount();
             highestCount.Text = highest.count + "";
             highestName.Text = highest.name + "";
@@ -209,6 +214,11 @@ namespace tallycalc
                 highestDownvoteButton.IsHitTestVisible = false;
                 highestName.Text = "";
                 highestCount.Text = "";
+            }
+            else
+            {
+                highestUpvoteButton.IsHitTestVisible = true;
+                highestDownvoteButton.IsHitTestVisible = true;
             }
         }
 

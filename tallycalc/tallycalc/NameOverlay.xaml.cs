@@ -29,7 +29,7 @@ namespace tallycalc
         private void CheckName(object sender, RoutedEventArgs e)
         {
             if ((sender as TextBox).Text.CompareTo("") == 0)
-                (sender as TextBox).Text = "New Numeral";
+                (sender as TextBox).Text = "New";
         }
     }
 }
