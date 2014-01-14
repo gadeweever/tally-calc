@@ -69,6 +69,7 @@ namespace tallycalc
                 highestDownvoteButton.IsEnabled = true;
 
                 Return();
+                CheckList();
               
             }
         }
@@ -87,6 +88,7 @@ namespace tallycalc
         {
             tallyGroupPageTitle.Text = Globals.CurrentTally.name;
             tallyItemList.ItemsSource = Globals.CurrentTally.tallyItems;
+            CheckList();
             base.OnNavigatedTo(e);
         }
 
@@ -141,7 +143,7 @@ namespace tallycalc
             UpdateHighest();
             ResetList();
 
-            Globals.SaveStorageData();
+            //Globals.SaveStorageData();
             
 
         }
@@ -172,7 +174,9 @@ namespace tallycalc
 
             highestCount.Text = Globals.CurrentTallyItem.count + "";
 
-            Globals.SaveStorageData();
+            ResetList();
+
+            //Globals.SaveStorageData();
         }
 
         private void DownVoteHighestItem(object sender, RoutedEventArgs e)
@@ -185,7 +189,9 @@ namespace tallycalc
             }
             highestCount.Text = Globals.CurrentTallyItem.count + "";
 
-            Globals.SaveStorageData();
+            ResetList();
+
+            //Globals.SaveStorageData();
         }
 
         #endregion
@@ -201,9 +207,10 @@ namespace tallycalc
         {
             Globals.CurrentTally.tallyItems.Remove(Globals.CurrentTallyItem);
             ResetList();
+            UpdateHighest();
             CheckList();
 
-            Globals.SaveStorageData();
+            //Globals.SaveStorageData();
         }
 
         private void CheckList()
