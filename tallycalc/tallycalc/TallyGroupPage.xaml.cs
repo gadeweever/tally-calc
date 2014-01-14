@@ -41,7 +41,7 @@ namespace tallycalc
                     ovr.numeralNameBox.Text = "";
                 else
                     ovr.numeralNameBox.Text = "New Item";
-                isPicking = !isPicking;
+                isPicking = true;
                 //set visible properties of the overlay
                 this.LayoutRoot.Opacity = 1;
                 this.popup.Child = ovr;
@@ -77,8 +77,11 @@ namespace tallycalc
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             if (isPicking)
+            {
                 Return();
-            base.OnBackKeyPress(e);
+                e.Cancel = true;
+            }
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -93,17 +96,17 @@ namespace tallycalc
             this.popup.IsOpen = false;
             this.LayoutRoot.Opacity = 1;
             SystemTray.IsVisible = true;
-            isPicking = !isPicking;
+            isPicking = false;
 
         }
         #endregion
 
         private void NavigateTallyItem(object sender, SelectionChangedEventArgs e)
         {
-            if (tallyItemList.SelectedIndex < 0)
-                return;
-            Globals.CurrentTallyItem = tallyItemList.SelectedItem as TallyItem;
-            NavigationService.Navigate(new Uri("/TallyItemPage.xaml",UriKind.Relative));
+            //if (tallyItemList.SelectedIndex < 0)
+            //    return;
+            //Globals.CurrentTallyItem = tallyItemList.SelectedItem as TallyItem;
+            //NavigationService.Navigate(new Uri("/TallyItemPage.xaml",UriKind.Relative));
         }
 
         #region Voting Handlers
@@ -115,6 +118,8 @@ namespace tallycalc
             Globals.CurrentTallyItem = Globals.CurrentTally.tallyItems[(Globals.GetNumeralItemIndexByName(wow))];
             
             Globals.CurrentTallyItem.count++;
+            Globals.CurrentTally.total++;
+            
             UpdateHighest();
             ResetList();
 
@@ -126,11 +131,16 @@ namespace tallycalc
             StackPanel content = ((sender as Button).Parent as StackPanel);
             string wow = (content.Children[content.Children.Count - 1] as TextBlock).Text;
             Globals.CurrentTallyItem = Globals.CurrentTally.tallyItems[(Globals.GetNumeralItemIndexByName(wow))];
-            
-            if(Globals.CurrentTallyItem.count > 0)
+
+            if (Globals.CurrentTallyItem.count > 0)
+            {
                 Globals.CurrentTallyItem.count--;
+                Globals.CurrentTally.total--;
+            }
             UpdateHighest();
             ResetList();
+
+            Globals.SaveStorageData();
 
         }
 
@@ -151,16 +161,26 @@ namespace tallycalc
         private void UpvoteHighestItem(object sender, RoutedEventArgs e)
         {
             Globals.CurrentTallyItem = Globals.CurrentTally.tallyItems[(Globals.GetNumeralItemIndexByName(highestName.Text))];
+            
             Globals.CurrentTallyItem.count++;
-            highestCount.Text = Globals.CurrentTallyItem.count + ""; 
+            Globals.CurrentTally.total++;
+
+            highestCount.Text = Globals.CurrentTallyItem.count + "";
+
+            Globals.SaveStorageData();
         }
 
         private void DownVoteHighestItem(object sender, RoutedEventArgs e)
         {
             Globals.CurrentTallyItem = Globals.CurrentTally.tallyItems[(Globals.GetNumeralItemIndexByName(highestName.Text))];
             if (Globals.CurrentTallyItem.count > 0)
+            {
                 Globals.CurrentTallyItem.count--;
+                Globals.CurrentTally.total--;
+            }
             highestCount.Text = Globals.CurrentTallyItem.count + "";
+
+            Globals.SaveStorageData();
         }
 
         #endregion
@@ -177,14 +197,18 @@ namespace tallycalc
             Globals.CurrentTally.tallyItems.Remove(Globals.CurrentTallyItem);
             ResetList();
             CheckList();
+
+            Globals.SaveStorageData();
         }
 
         private void CheckList()
         {
-            if (Globals.CurrentTally.tallyItems.Count == 0)
+            if (Globals.CurrentTally.tallyItems.Count == 0 || Globals.GetNumeralItemIndexByName(highestName.Text) == -1)
             {
                 highestUpvoteButton.IsHitTestVisible = false;
                 highestDownvoteButton.IsHitTestVisible = false;
+                highestName.Text = "";
+                highestCount.Text = "";
             }
         }
 

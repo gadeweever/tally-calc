@@ -27,6 +27,7 @@ namespace tallycalc
             this.popup = new Popup();
             isPicking = false;
             tallyIndex = -1;
+            Globals.IsOpen = false;
             InitializeComponent();
             Globals.CurrentTallies = new List<TallyGroup>();
             LoadStoredData();
@@ -75,7 +76,10 @@ namespace tallycalc
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             if (isPicking)
+            {
                 Return();
+                e.Cancel = true;
+            }
             base.OnBackKeyPress(e);
         }
 
@@ -84,6 +88,12 @@ namespace tallycalc
             base.OnNavigatedTo(e);
 
             tallyList.SelectedIndex = -1;
+            if (Globals.IsOpen)
+            {
+                tallyList.ItemsSource = null;
+                tallyList.ItemsSource = Globals.CurrentTallies;
+            }
+
         }
         #endregion
 
@@ -121,6 +131,7 @@ namespace tallycalc
 
                 }
             }
+            Globals.IsOpen = true;
             return 0;
 
         }

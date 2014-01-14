@@ -61,15 +61,10 @@
                             </toolkit:ContextMenuService.ContextMenu>
                             <TextBlock Text="{Binding name}" Style="{StaticResource PhoneTextTitle2Style}" Hold="GetSelectedIndexByName"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Total Collected: " Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                <TextBlock Text="Total Collected:"  Style="{StaticResource PhoneTextSubtleStyle}"/>
                                 <TextBlock Text="{Binding total}" Foreground="{StaticResource PhoneAccentBrush}" Style="{StaticResource PhoneTextSubtleStyle}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Highest Vote: " Style="{StaticResource PhoneTextSubtleStyle}" />
-                                <TextBlock Text="{Binding tallyname}" Foreground="{StaticResource PhoneAccentBrush}" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                <TextBlock Text="Highest Vote Count: "  Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                <TextBlock Text="{Binding tallycount}" Foreground="{StaticResource PhoneAccentBrush}" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                            </StackPanel>                            
+                                                       
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

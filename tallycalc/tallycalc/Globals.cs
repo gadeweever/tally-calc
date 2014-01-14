@@ -14,6 +14,7 @@ namespace tallycalc
         private static TallyGroup _currentTally;
         private static List<TallyGroup> _currentTallies;
         private static TallyItem _currentTallyItem;
+        private static bool _isOpen;
         #endregion
         #region Variable Definitions
 
@@ -39,6 +40,12 @@ namespace tallycalc
             {
                 _currentTallyItem = value;
             }
+        }
+
+        public static bool IsOpen
+        {
+            get { return _isOpen; }
+            set { _isOpen = value; }
         }
         #endregion
         #region Isolate Storage Handling
