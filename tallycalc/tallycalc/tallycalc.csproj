@@ -115,6 +115,7 @@
     <Compile Include="TallyItemPage.xaml.cs">
       <DependentUpon>TallyItemPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TiltEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

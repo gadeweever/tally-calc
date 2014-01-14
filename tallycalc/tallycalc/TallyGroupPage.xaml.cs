@@ -23,8 +23,11 @@ namespace tallycalc
             this.popup = new Popup();
             isPicking = false;
             InitializeComponent();
-            tallyItemList.Height = Application.Current.Host.Content.ActualHeight * 0.6625;
+            tallyItemList.Height = Application.Current.Host.Content.ActualHeight * 0.525;
             tallyItemList.Width = Application.Current.Host.Content.ActualWidth;
+            listDivider.Width = Application.Current.Host.Content.ActualWidth * .9;
+            CheckList();
+            
         }
 
         
@@ -62,6 +65,10 @@ namespace tallycalc
 
                 ResetList();
 
+                //enable buttons
+                highestUpvoteButton.IsEnabled = true;
+                highestDownvoteButton.IsEnabled = true;
+
                 Return();
               
             }
@@ -93,6 +100,8 @@ namespace tallycalc
 
         private void NavigateTallyItem(object sender, SelectionChangedEventArgs e)
         {
+            if (tallyItemList.SelectedIndex < 0)
+                return;
             Globals.CurrentTallyItem = tallyItemList.SelectedItem as TallyItem;
             NavigationService.Navigate(new Uri("/TallyItemPage.xaml",UriKind.Relative));
         }
@@ -106,7 +115,7 @@ namespace tallycalc
             Globals.CurrentTallyItem = Globals.CurrentTally.tallyItems[(Globals.GetNumeralItemIndexByName(wow))];
             
             Globals.CurrentTallyItem.count++;
-            
+            UpdateHighest();
             ResetList();
 
         }
@@ -120,7 +129,7 @@ namespace tallycalc
             
             if(Globals.CurrentTallyItem.count > 0)
                 Globals.CurrentTallyItem.count--;
-            
+            UpdateHighest();
             ResetList();
 
         }
@@ -130,7 +139,57 @@ namespace tallycalc
             tallyItemList.ItemsSource = null;
             tallyItemList.ItemsSource = Globals.CurrentTally.tallyItems;
         }
+
+        private void UpdateHighest()
+        {
+            TallyItem highest = Globals.CurrentTally.GetHighestCount();
+            highestCount.Text = highest.count + "";
+            highestName.Text = highest.name + "";
+        }
+        
+
+        private void UpvoteHighestItem(object sender, RoutedEventArgs e)
+        {
+            Globals.CurrentTallyItem = Globals.CurrentTally.tallyItems[(Globals.GetNumeralItemIndexByName(highestName.Text))];
+            Globals.CurrentTallyItem.count++;
+            highestCount.Text = Globals.CurrentTallyItem.count + ""; 
+        }
+
+        private void DownVoteHighestItem(object sender, RoutedEventArgs e)
+        {
+            Globals.CurrentTallyItem = Globals.CurrentTally.tallyItems[(Globals.GetNumeralItemIndexByName(highestName.Text))];
+            if (Globals.CurrentTallyItem.count > 0)
+                Globals.CurrentTallyItem.count--;
+            highestCount.Text = Globals.CurrentTallyItem.count + "";
+        }
+
         #endregion
+
+        #region Deletion Handlers
+        private void GetNumeralItemIndexByName(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            StackPanel content = sender as StackPanel;
+            Globals.CurrentTallyItem = Globals.CurrentTally.tallyItems[Globals.GetNumeralItemIndexByName((content.Children[content.Children.Count - 1] as TextBlock).Text)];
+        }
+        
+        private void DeleteTallyItem(object sender, RoutedEventArgs e)
+        {
+            Globals.CurrentTally.tallyItems.Remove(Globals.CurrentTallyItem);
+            ResetList();
+            CheckList();
+        }
+
+        private void CheckList()
+        {
+            if (Globals.CurrentTally.tallyItems.Count == 0)
+            {
+                highestUpvoteButton.IsHitTestVisible = false;
+                highestDownvoteButton.IsHitTestVisible = false;
+            }
+        }
+
+        #endregion
+
 
     }
 }

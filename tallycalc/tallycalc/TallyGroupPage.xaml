@@ -6,6 +6,9 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:local="clr-namespace:tallycalc"
+    local:TiltEffect.IsTiltEnabled="True"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -32,6 +35,14 @@
             <StackPanel>
                 <StackPanel>
                     <TextBlock Text="Highest Vote: " Style="{StaticResource PhoneTextLargeStyle}"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="highestUpvoteButton" Content="+" Click="UpvoteHighestItem" FontSize="36" HorizontalAlignment="Right" BorderBrush="{StaticResource PhoneBackgroundBrush}" />
+                        <Button x:Name="highestDownvoteButton" Content="-" Click="DownVoteHighestItem" FontSize="36" HorizontalAlignment="Right" BorderBrush="{StaticResource PhoneBackgroundBrush}" />
+                        <TextBlock x:Name="highestCount" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12,0,0" Foreground="{StaticResource PhoneAccentBrush}" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="highestName" Margin="12,12,0,0" Style="{StaticResource PhoneTextTitle2Style}" VerticalAlignment="Center"/>
+                        
+                    </StackPanel>
+                    <Rectangle x:Name="listDivider" Height="3" Fill="{StaticResource PhoneAccentBrush}" />
                 </StackPanel>
                 <ListBox x:Name="tallyItemList" SelectionChanged="NavigateTallyItem">
                     <ListBox.ItemContainerStyle>
@@ -42,11 +53,16 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Hold="GetNumeralItemIndexByName">
+                                <toolkit:ContextMenuService.ContextMenu>
+                                    <toolkit:ContextMenu x:Name="tallyContextMenu">
+                                        <toolkit:MenuItem Header="Delete" Click="DeleteTallyItem"/>
+                                    </toolkit:ContextMenu>
+                                </toolkit:ContextMenuService.ContextMenu>
                                 <Button Content="+" Click="UpvoteTallyItem" FontSize="36" HorizontalAlignment="Right" BorderBrush="{StaticResource PhoneBackgroundBrush}" />
-                                <Button Content="-" Click="DownVoteTallyItem" FontSize="24" HorizontalAlignment="Right" BorderBrush="{StaticResource PhoneBackgroundBrush}" />
-                                <TextBlock Text="{Binding count}" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,12,0,0" Foreground="{StaticResource PhoneAccentBrush}" />
-                                <TextBlock Text="{Binding name}" Margin="12,12,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
+                                <Button Content="-" Click="DownVoteTallyItem" FontSize="36" HorizontalAlignment="Right" BorderBrush="{StaticResource PhoneBackgroundBrush}" />
+                                <TextBlock Text="{Binding count}" Style="{StaticResource PhoneTextTitle2Style}" Margin="12,0,0,0" Foreground="{StaticResource PhoneAccentBrush}" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding name}" Margin="12,0,0,0" Style="{StaticResource PhoneTextTitle2Style}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
