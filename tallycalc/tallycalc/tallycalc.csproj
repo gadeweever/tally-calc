@@ -147,6 +147,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\110pxIcon-01.png" />
+    <Content Include="Assets\202pxIcon-01.png" />
+    <Content Include="Assets\99pxIcon-01.png" />
+    <Content Include="Assets\99pxIcon.png" />
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

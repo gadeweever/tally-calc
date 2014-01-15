@@ -2,7 +2,7 @@
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
   <App xmlns="" ProductID="{660c0695-7775-4398-859b-11255137e1c9}" Title="Roman Numeral" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Codon Unit" Description="Simple group tally application for keeping track of data" Publisher="Codon Unit" PublisherID="{d938c45b-38c3-4cd4-b793-fe4ee800b4f5}">
-    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">Assets\99pxIcon-01.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_SENSORS" />
@@ -14,9 +14,9 @@
     <Tokens>
       <PrimaryToken TokenID="tallycalcToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\110pxIcon-01.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\202pxIcon-01.png</BackgroundImageURI>
           <Title>Roman Numeral</Title>
           <BackContent>
           </BackContent>
